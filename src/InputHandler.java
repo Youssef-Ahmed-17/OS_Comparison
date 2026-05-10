@@ -19,7 +19,6 @@ class InputHandler {
         }
     }
 
-
     static List<Process> readProcesses() {
         int n = readInt("Number of processes (1-20): ", 1, 20);
         List<Process> list = new ArrayList<>();
@@ -29,20 +28,7 @@ class InputHandler {
 
         for (int i = 1; i <= n; i++) {
             System.out.println("Process " + i + ":");
-
-            String pid;
-            while (true) {
-                System.out.print("  PID (e.g. P" + i + "): ");
-                pid = sc.nextLine().trim();
-
-                if (pid.isEmpty()) {
-                    System.out.println("  PID can not be empty.");
-                } else if (usedIDs.contains(pid)) {
-                    System.out.println("  PID already used.");
-                } else {
-                    break;
-                }
-            }
+            String pid = "P" + i;
             usedIDs.add(pid);
 
             int at = readInt("  Arrival Time (>=0): ", 0, Integer.MAX_VALUE);
