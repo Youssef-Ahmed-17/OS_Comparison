@@ -7,10 +7,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.control.TextArea;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class MainGUI extends Application {
     ObservableList<Process> processes = FXCollections.observableArrayList();
     TextArea output = new TextArea();
+    VBox chartsBox = new VBox(20);
+
     @Override
     public void start(Stage stage) {
         Label title = new Label("OS Scheduling GUI");
@@ -140,11 +144,67 @@ public class MainGUI extends Application {
                     .append(srtfAvg[2]);
 
             output.setText(text.toString());
+
+            chartsBox.getChildren().clear();
+
+            Label pTitle = new Label("Priority Gantt Chart");
+
+            HBox pChart = new HBox(2);
+
+            for(GanttEntry g : priorityResult) {
+
+                VBox block = new VBox();
+
+                Rectangle r = new Rectangle();
+
+                r.setWidth((g.end - g.start) * 40);
+
+                r.setHeight(40);
+
+                r.setFill(Color.LIGHTBLUE);
+
+                Label l = new Label(g.pid);
+
+                block.getChildren().addAll(r, l);
+
+                pChart.getChildren().add(block);
+            }
+
+            Label sTitle = new Label("SRTF Gantt Chart");
+
+            HBox sChart = new HBox(2);
+
+            for(GanttEntry g : srtfResult) {
+
+                VBox block = new VBox();
+
+                Rectangle r = new Rectangle();
+
+                r.setWidth((g.end - g.start) * 40);
+
+                r.setHeight(40);
+
+                r.setFill(Color.LIGHTGREEN);
+
+                Label l = new Label(g.pid);
+
+                block.getChildren().addAll(r, l);
+
+                sChart.getChildren().add(block);
+            }
+
+            chartsBox.getChildren().addAll(
+                    pTitle,
+                    pChart,
+                    sTitle,
+                    sChart
+            );
         });
 
         HBox input = new HBox(10, pid, at, bt, pr, add, clear, run);
-        VBox root = new VBox(15, title, input, table, output);
-        root.setPadding(new Insets(10));
+        VBox root = new VBox(15, title, input, table, output, chartsBox);
+
+                root.setPadding(new Insets(10));
         stage.setScene(new Scene(root, 800, 500));
         stage.setTitle("OS Project");
         stage.show();
