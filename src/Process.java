@@ -7,7 +7,7 @@ public class Process {
     boolean started;
     int ct,wt,tat,rt;
 
-    Process(String pid,int at,int priority){
+    Process(String pid, int at, int bt, int priority){
         this.pid=pid;
         this.at=at;
         this.bt=bt;
